@@ -257,6 +257,7 @@ func SetupGenesisBlockWithOverride(db ethdb.Database, triedb *triedb.Database, g
 		if err != nil {
 			return genesis.Config, common.Hash{}, err
 		}
+		log.Info("====> Genesis block written", "hash", block.Hash().String())
 		return genesis.Config, block.Hash(), nil
 	}
 	// The genesis block is present(perhaps in ancient database) while the
