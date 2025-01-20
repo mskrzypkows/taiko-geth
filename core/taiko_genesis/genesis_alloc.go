@@ -33,3 +33,9 @@ var HeklaGenesisAllocJSON []byte
 
 //go:embed mainnet.json
 var MainnetGenesisAllocJSON []byte
+
+//go:embed neth_genesis_763373.json
+var SurgeGenesisAllocJSON []byte
+
+//go:embed neth_genesis_763374.json
+var SurgeTestGenesisAllocJSON []byte

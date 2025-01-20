@@ -10,10 +10,11 @@ import (
 )
 
 var (
-	InternalDevnetOntakeBlock = new(big.Int).SetUint64(2)
+	InternalDevnetOntakeBlock = new(big.Int).SetUint64(0)
 	HeklaOntakeBlock          = new(big.Int).SetUint64(840_512)
-	// TODO: update this value when mainnet fork height is decided
-	MainnetOntakeBlock = new(big.Int).SetUint64(9_000_000)
+	MainnetOntakeBlock        = new(big.Int).SetUint64(538_304)
+	SurgeNetworkID            = big.NewInt(763373) // 0xba5ed
+	SurgeTestNetworkID        = big.NewInt(763374) // 0xba5ee
 )
 
 // TaikoGenesisBlock returns the Taiko network genesis block configs.
@@ -55,6 +56,16 @@ func TaikoGenesisBlock(networkID uint64) *Genesis {
 		chainConfig.ChainID = params.HeklaNetworkID
 		chainConfig.OntakeBlock = HeklaOntakeBlock
 		allocJSON = taikoGenesis.HeklaGenesisAllocJSON
+	case SurgeNetworkID.Uint64():
+		log.Info("Using Nethermind genesis file for Surge network", "networkID", SurgeNetworkID.Uint64())
+		chainConfig.ChainID = SurgeNetworkID
+		chainConfig.OntakeBlock = new(big.Int).SetUint64(1)
+		allocJSON = taikoGenesis.SurgeGenesisAllocJSON
+	case SurgeTestNetworkID.Uint64():
+		log.Info("Using Nethermind genesis file for SurgeTest network", "networkID", SurgeTestNetworkID.Uint64())
+		chainConfig.ChainID = SurgeTestNetworkID
+		chainConfig.OntakeBlock = new(big.Int).SetUint64(1)
+		allocJSON = taikoGenesis.SurgeTestGenesisAllocJSON
 	default:
 		chainConfig.ChainID = params.TaikoInternalL2ANetworkID
 		chainConfig.OntakeBlock = InternalDevnetOntakeBlock
