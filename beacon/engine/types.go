@@ -80,6 +80,7 @@ type BlockMetadata struct {
 
 // CHANGE(taiko): JSON type overrides for BlockMetadata.
 type blockMetadataMarshaling struct {
+	BatchID   *hexutil.Big
 	Timestamp hexutil.Uint64
 	TxList    hexutil.Bytes
 }

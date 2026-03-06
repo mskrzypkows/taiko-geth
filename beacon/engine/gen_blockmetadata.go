@@ -20,7 +20,7 @@ func (b BlockMetadata) MarshalJSON() ([]byte, error) {
 		GasLimit    uint64         `json:"gasLimit"     gencodec:"required"`
 		Timestamp   hexutil.Uint64 `json:"timestamp"    gencodec:"required"`
 		MixHash     common.Hash    `json:"mixHash"      gencodec:"required"`
-		BatchID     *big.Int       `json:"batchId"`
+		BatchID     *hexutil.Big   `json:"batchId"`
 		TxList      hexutil.Bytes  `json:"txList"          gencodec:"required"`
 		ExtraData   []byte         `json:"extraData"       gencodec:"required"`
 	}
@@ -29,7 +29,7 @@ func (b BlockMetadata) MarshalJSON() ([]byte, error) {
 	enc.GasLimit = b.GasLimit
 	enc.Timestamp = hexutil.Uint64(b.Timestamp)
 	enc.MixHash = b.MixHash
-	enc.BatchID = b.BatchID
+	enc.BatchID = (*hexutil.Big)(b.BatchID)
 	enc.TxList = b.TxList
 	enc.ExtraData = b.ExtraData
 	return json.Marshal(&enc)
@@ -42,7 +42,7 @@ func (b *BlockMetadata) UnmarshalJSON(input []byte) error {
 		GasLimit    *uint64         `json:"gasLimit"     gencodec:"required"`
 		Timestamp   *hexutil.Uint64 `json:"timestamp"    gencodec:"required"`
 		MixHash     *common.Hash    `json:"mixHash"      gencodec:"required"`
-		BatchID     *big.Int        `json:"batchId"`
+		BatchID     *hexutil.Big    `json:"batchId"`
 		TxList      *hexutil.Bytes  `json:"txList"          gencodec:"required"`
 		ExtraData   []byte          `json:"extraData"       gencodec:"required"`
 	}
@@ -67,7 +67,7 @@ func (b *BlockMetadata) UnmarshalJSON(input []byte) error {
 	}
 	b.MixHash = *dec.MixHash
 	if dec.BatchID != nil {
-		b.BatchID = dec.BatchID
+		b.BatchID = (*big.Int)(dec.BatchID)
 	}
 	if dec.TxList == nil {
 		return errors.New("missing required field 'txList' for BlockMetadata")
